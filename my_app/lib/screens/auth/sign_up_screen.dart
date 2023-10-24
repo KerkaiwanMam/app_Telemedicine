@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/blocs/sign_up_bloc/sign_up_bloc_bloc.dart';
 import 'package:my_app/screens/auth/components/my_text_field.dart';
+import 'package:my_app/screens/auth/sign_in_screen.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ final heightController = TextEditingController();
 final weightController = TextEditingController();
 final ageController = TextEditingController();
 final genderController = TextEditingController();
+final passwordconfirmController = TextEditingController();
 
 int? age;
 int? weight;
@@ -22,6 +24,7 @@ final _formKey = GlobalKey<FormState>();
 
 IconData iconPassword = CupertinoIcons.eye_fill;
 bool obscurePassword = true;
+bool obscurePasswordconfirm = true;
 bool signUpRequired = false;
 
 bool containsUpperCase = false;
@@ -29,6 +32,10 @@ bool containsLowerCase = false;
 bool containsNumber = false;
 bool containsSpecialChar = false;
 bool contains8Length = false;
+bool obscureConfirmPassword = true; // กำหนดให้รหัสผ่านยืนยันเริ่มต้นเป็นแบบสลับ
+IconData iconConfirmPassword =
+    CupertinoIcons.eye_fill; // ไอคอนที่ใช้แสดงสถานะของรหัสผ่านยืนยัน
+bool containsConfirmPasswordMatch = false; // สถานะการตรวจสอบรหัสผ่านยืนยัน
 
 bool isMale = false;
 bool isFemale = false;
@@ -54,11 +61,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 39, 181, 56), 
-      appBar: AppBar(
-        title: Text('Sign Up'),
-        backgroundColor: const Color.fromARGB(255, 214, 218, 221), 
-      ),
       body: PageView(
         controller: _pageController,
         onPageChanged: (page) {
@@ -67,10 +69,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
           });
         },
         children: <Widget>[
-          EmailPasswordPage(),
           UsernameAgeGenderPage(),
+          EmailPasswordPage(),
           HeightWeightPage(),
         ],
+      ),
+      appBar: AppBar(
+        toolbarHeight: 60,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        titleSpacing: -30,
+        title: Text(
+          "Sign In",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 26,
+          ),
+        ),
+        leadingWidth: 120,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black, size: 24),
+          onPressed: () {
+            // ทำการย้อนกลับ
+            if (_currentPage > 0) {
+              _pageController.previousPage(
+                duration: Duration(milliseconds: 400),
+                curve: Curves.easeInOut,
+              );
+            }
+          },
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(5), // รูป Divider ขนาด 5
+          child: Divider(
+            color: Color.fromARGB(255, 0, 0, 0),
+            thickness: 1,
+            height: 5, // ความสูงของ Divider
+            indent: 40, // ความกว้างของบานน่า
+            endIndent: 40, // ความกว้างของท้าย
+          ),
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
@@ -154,8 +192,8 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
     }
   }
 
-//-----------------------------------------------  
-@override
+//-----------------------------------------------
+  @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpBloc, SignUpState>(
       listener: (context, state) {
@@ -179,6 +217,77 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
           child: Center(
             child: Column(
               children: [
+                Container(
+                  // height: double.infinity,
+                  // width: double.infinity,
+                  // decoration: const BoxDecoration(
+                  //   image: DecorationImage(
+                  //     fit: BoxFit.fill,
+                  //     image: NetworkImage(
+                  //         'assets/images/background-image_signIn_2.jpg'),
+                  //   ),
+                  // ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            "Almost there!".toUpperCase(),
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Transform.scale(
+                            scale: 0.5, // Adjust the scale factor as needed
+                            child: Image(
+                              image: NetworkImage(
+                                  'assets/images/LinearProcess_almost.png'),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            "General InfoRmation".toUpperCase(),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontStyle: FontStyle.italic,
+                                color: Color(0xFFCF9A40)),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "|".toUpperCase(),
+                            style: TextStyle(
+                                fontSize: 16, color: Color(0xFFCF9A40)),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Create Account".toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 25),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -285,6 +394,18 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
                             contains8Length = false;
                           });
                         }
+                        if (val != passwordController.text) {
+                        // ถ้ารหัสผ่านยืนยันไม่ตรงกับรหัสผ่าน
+                        setState(() {
+                          containsConfirmPasswordMatch =
+                              false; // กำหนดให้ตัวแปร containsConfirmPasswordMatch เป็น false
+                        });
+                      } else {
+                        setState(() {
+                          containsConfirmPasswordMatch =
+                              true; // ถ้ารหัสผ่านยืนยันตรงกับรหัสผ่าน
+                        });
+                      }
                         return null;
                       },
                       suffixIcon: IconButton(
@@ -310,6 +431,112 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
                         }
                         return null;
                       }),
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: const Text(
+                    'Password Confirm',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: MyTextField(
+                    controller: passwordconfirmController,
+                    hintText: 'Confirm your password',
+                    obscureText: obscurePassword,
+                    keyboardType: TextInputType.visiblePassword,
+                    prefixIcon: const Icon(CupertinoIcons.lock_fill),
+                    onChanged: (val) {
+                      if (val!.contains(RegExp(r'[A-Z]'))) {
+                        setState(() {
+                          containsUpperCase = true;
+                        });
+                      } else {
+                        setState(() {
+                          containsUpperCase = false;
+                        });
+                      }
+                      if (val.contains(RegExp(r'[a-z]'))) {
+                        setState(() {
+                          containsLowerCase = true;
+                        });
+                      } else {
+                        setState(() {
+                          containsLowerCase = false;
+                        });
+                      }
+                      if (val.contains(RegExp(r'[0-9]'))) {
+                        setState(() {
+                          containsNumber = true;
+                        });
+                      } else {
+                        setState(() {
+                          containsNumber = false;
+                        });
+                      }
+                      if (val.contains(RegExp(
+                          r'^(?=.*?[!@#$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^])'))) {
+                        setState(() {
+                          containsSpecialChar = true;
+                        });
+                      } else {
+                        setState(() {
+                          containsSpecialChar = false;
+                        });
+                      }
+                      if (val.length >= 8) {
+                        setState(() {
+                          contains8Length = true;
+                        });
+                      } else {
+                        setState(() {
+                          contains8Length = false;
+                        });
+                      }
+                      if (val != passwordController.text) {
+                        // ถ้ารหัสผ่านยืนยันไม่ตรงกับรหัสผ่าน
+                        setState(() {
+                          containsConfirmPasswordMatch =
+                              false; // กำหนดให้ตัวแปร containsConfirmPasswordMatch เป็น false
+                        });
+                      } else {
+                        setState(() {
+                          containsConfirmPasswordMatch =
+                              true; // ถ้ารหัสผ่านยืนยันตรงกับรหัสผ่าน
+                        });
+                      }
+                      return null;
+                    },
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          obscureConfirmPassword = !obscureConfirmPassword;
+                          if (obscureConfirmPassword) {
+                            iconConfirmPassword = CupertinoIcons.eye_fill;
+                          } else {
+                            iconConfirmPassword = CupertinoIcons.eye_slash_fill;
+                          }
+                        });
+                      },
+                      icon: Icon(iconPassword),
+                    ),
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'Please Fill in This Field';
+                      } else if (!RegExp(
+                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$')
+                          .hasMatch(val)) {
+                        return 'Please Enter a Valid Password';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
                 const SizedBox(height: 15),
                 Row(
@@ -357,6 +584,18 @@ class _EmailPasswordPageState extends State<EmailPasswordPage> {
                               color: contains8Length
                                   ? Colors.green
                                   : Colors.black),
+                        ),
+                        Text(
+                          "⚈  Passwords Match",
+                          // ให้สีของข้อความเป็นสีเขียวเมื่อรหัสผ่านยืนยันตรงกับรหัสผ่าน
+                          style: TextStyle(
+                            color: containsConfirmPasswordMatch
+                                ? Colors.green
+                                : Colors.black,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 60,
                         ),
                       ],
                     ),
