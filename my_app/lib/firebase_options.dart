@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAk7axwNm4S2DOvbC53k1tYEWqztOxpSGQ',
-    appId: '1:581296192560:web:5b3383931d6ec903a241f5',
-    messagingSenderId: '581296192560',
-    projectId: 'soft-dev-project-23172',
-    authDomain: 'soft-dev-project-23172.firebaseapp.com',
-    storageBucket: 'soft-dev-project-23172.appspot.com',
-    measurementId: 'G-4NPCPECPEQ',
+    apiKey: 'AIzaSyApDZKfQ5ktdiJHwp5K049UOopcmYYrdso',
+    appId: '1:393639006879:web:80d49d7e47744bb52e88aa',
+    messagingSenderId: '393639006879',
+    projectId: 'app-telemedicine-run',
+    authDomain: 'app-telemedicine-run.firebaseapp.com',
+    storageBucket: 'app-telemedicine-run.appspot.com',
+    measurementId: 'G-NT7XFV5E2S',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCJZ0gqrIaiX9BhBJvJM5GtaUPExcRxhNQ',
-    appId: '1:581296192560:android:8d66a3c789d420a9a241f5',
-    messagingSenderId: '581296192560',
-    projectId: 'soft-dev-project-23172',
-    storageBucket: 'soft-dev-project-23172.appspot.com',
+    apiKey: 'AIzaSyBnMUZrhrVuKuRGCGEgsFz_iFIdDvhUbRw',
+    appId: '1:393639006879:android:dfc7881fbc6629f62e88aa',
+    messagingSenderId: '393639006879',
+    projectId: 'app-telemedicine-run',
+    storageBucket: 'app-telemedicine-run.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDtJCqQd5g1fqwcSQ7SxUDm1OPKwVoqCUg',
-    appId: '1:581296192560:ios:aacd7475c61e0d0ea241f5',
-    messagingSenderId: '581296192560',
-    projectId: 'soft-dev-project-23172',
-    storageBucket: 'soft-dev-project-23172.appspot.com',
-    iosBundleId: 'com.example.softDevApp',
+    apiKey: 'AIzaSyBP06qkHvMaxRoBc_PySXrDA--vYMna2eU',
+    appId: '1:393639006879:ios:49a4efcb28a859a22e88aa',
+    messagingSenderId: '393639006879',
+    projectId: 'app-telemedicine-run',
+    storageBucket: 'app-telemedicine-run.appspot.com',
+    iosBundleId: 'com.example.myApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDtJCqQd5g1fqwcSQ7SxUDm1OPKwVoqCUg',
-    appId: '1:581296192560:ios:5c9c8a794985e79ba241f5',
-    messagingSenderId: '581296192560',
-    projectId: 'soft-dev-project-23172',
-    storageBucket: 'soft-dev-project-23172.appspot.com',
-    iosBundleId: 'com.example.softDevApp.RunnerTests',
+    apiKey: 'AIzaSyBP06qkHvMaxRoBc_PySXrDA--vYMna2eU',
+    appId: '1:393639006879:ios:7aa5f8f2381f5a3a2e88aa',
+    messagingSenderId: '393639006879',
+    projectId: 'app-telemedicine-run',
+    storageBucket: 'app-telemedicine-run.appspot.com',
+    iosBundleId: 'com.example.myApp.RunnerTests',
   );
 }

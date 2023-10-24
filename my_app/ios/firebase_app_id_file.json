@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:738625845314:ios:5d16b3f85bf763a72595db",
-  "FIREBASE_PROJECT_ID": "testapp-ee39a",
-  "GCM_SENDER_ID": "738625845314"
+  "GOOGLE_APP_ID": "1:393639006879:ios:49a4efcb28a859a22e88aa",
+  "FIREBASE_PROJECT_ID": "app-telemedicine-run",
+  "GCM_SENDER_ID": "393639006879"
 }

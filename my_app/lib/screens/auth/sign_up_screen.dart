@@ -6,49 +6,112 @@ import 'package:user_repository/user_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+final passwordController = TextEditingController();
+final emailController = TextEditingController();
+final nameController = TextEditingController();
+final heightController = TextEditingController();
+final weightController = TextEditingController();
+final ageController = TextEditingController();
+final genderController = TextEditingController();
+
+int? age;
+int? weight;
+int? height;
+
+final _formKey = GlobalKey<FormState>();
+
+IconData iconPassword = CupertinoIcons.eye_fill;
+bool obscurePassword = true;
+bool signUpRequired = false;
+
+bool containsUpperCase = false;
+bool containsLowerCase = false;
+bool containsNumber = false;
+bool containsSpecialChar = false;
+bool contains8Length = false;
+
+bool isMale = false;
+bool isFemale = false;
+bool isOther = false;
+
+bool isUsernameTaken = false;
+String? _username;
+
+bool isGmailTaken = false;
+String? _Gmail;
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final passwordController = TextEditingController();
-  final emailController = TextEditingController();
-  final nameController = TextEditingController();
-  final heightController = TextEditingController();
-  final weightController = TextEditingController();
-  final ageController = TextEditingController();
-  final genderController = TextEditingController();
+  final PageController _pageController = PageController(initialPage: 0);
+  int _currentPage = 0;
 
-  int? age;
-  int? weight;
-  int? height;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 39, 181, 56), 
+      appBar: AppBar(
+        title: Text('Sign Up'),
+        backgroundColor: const Color.fromARGB(255, 214, 218, 221), 
+      ),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (page) {
+          setState(() {
+            _currentPage = page;
+          });
+        },
+        children: <Widget>[
+          EmailPasswordPage(),
+          UsernameAgeGenderPage(),
+          HeightWeightPage(),
+        ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            if (_currentPage > 0)
+              TextButton(
+                onPressed: () {
+                  _pageController.previousPage(
+                    duration: Duration(milliseconds: 400),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                child: Text('Previous'),
+              ),
+            if (_currentPage <
+                2) // Adjust the number based on the number of pages
+              TextButton(
+                onPressed: () {
+                  _pageController.nextPage(
+                    duration: Duration(milliseconds: 400),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                child: Text('Next'),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-  final _formKey = GlobalKey<FormState>();
+class EmailPasswordPage extends StatefulWidget {
+  @override
+  _EmailPasswordPageState createState() => _EmailPasswordPageState();
+}
 
-  IconData iconPassword = CupertinoIcons.eye_fill;
-  bool obscurePassword = true;
-  bool signUpRequired = false;
-
-  bool containsUpperCase = false;
-  bool containsLowerCase = false;
-  bool containsNumber = false;
-  bool containsSpecialChar = false;
-  bool contains8Length = false;
-
-  bool isMale = false;
-  bool isFemale = false;
-  bool isOther = false;
-  
-  bool isUsernameTaken = false;
-  String? _username;
-
-  bool isGmailTaken = false;
-  String? _Gmail;
+class _EmailPasswordPageState extends State<EmailPasswordPage> {
 //-----------------------------------------------
-    Future<bool> checkemailAvailability(String email) async {
+  Future<bool> checkemailAvailability(String email) async {
     final result = await FirebaseFirestore.instance
         .collection('userProfile')
         .where('email', isEqualTo: email)
@@ -68,6 +131,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
   }
+
 //-----------------------------------------------
   Future<bool> checkUsernameAvailability(String username) async {
     final result = await FirebaseFirestore.instance
@@ -89,8 +153,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
   }
-//-----------------------------------------------
-  @override
+
+//-----------------------------------------------  
+@override
   Widget build(BuildContext context) {
     return BlocListener<SignUpBloc, SignUpState>(
       listener: (context, state) {
@@ -110,7 +175,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: SingleChildScrollView(
         //เพิ่ม
         child: Form(
-          key: _formKey,
+          // key: _formKey,
           child: Center(
             child: Column(
               children: [
@@ -147,9 +212,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                       onChanged: (val) {
                         setState(() {
-                        _Gmail = val;
-                      });
-                                              
+                          _Gmail = val;
+                        });
+
                         checkAndSetemail(val);
                       }),
                 ),
@@ -297,6 +362,89 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ],
                 ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class UsernameAgeGenderPage extends StatefulWidget {
+  @override
+  _UsernameAgeGenderPage createState() => _UsernameAgeGenderPage();
+}
+
+class _UsernameAgeGenderPage extends State<UsernameAgeGenderPage> {
+//-----------------------------------------------
+  Future<bool> checkemailAvailability(String email) async {
+    final result = await FirebaseFirestore.instance
+        .collection('userProfile')
+        .where('email', isEqualTo: email)
+        .get();
+    return !result.docs.isEmpty;
+  }
+
+  Future<void> checkAndSetemail(String? val) async {
+    setState(() {
+      isGmailTaken = false;
+    });
+
+    if (val!.isNotEmpty) {
+      bool isTaken = await checkemailAvailability(val);
+      setState(() {
+        isGmailTaken = isTaken;
+      });
+    }
+  }
+
+//-----------------------------------------------
+  Future<bool> checkUsernameAvailability(String username) async {
+    final result = await FirebaseFirestore.instance
+        .collection('userProfile')
+        .where('username', isEqualTo: username)
+        .get();
+    return !result.docs.isEmpty;
+  }
+
+  Future<void> checkAndSetUsername(String? val) async {
+    setState(() {
+      isUsernameTaken = false;
+    });
+
+    if (val!.isNotEmpty) {
+      bool isTaken = await checkUsernameAvailability(val);
+      setState(() {
+        isUsernameTaken = isTaken;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<SignUpBloc, SignUpState>(
+      listener: (context, state) {
+        if (state is SignUpSuccess) {
+          setState(() {
+            signUpRequired = false;
+          });
+          // Navigator.pop(context);
+        } else if (state is SignUpProcess) {
+          setState(() {
+            signUpRequired = true;
+          });
+        } else if (state is SignUpFailure) {
+          return;
+        }
+      },
+      child: SingleChildScrollView(
+        //เพิ่ม
+        child: Form(
+          //key: _formKey,
+          child: Center(
+            child: Column(
+              children: [
                 const SizedBox(height: 15),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -331,7 +479,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         setState(() {
                           _username = val;
                         });
-                        
+
                         checkAndSetUsername(val);
                       }),
                 ),
@@ -424,12 +572,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const Text('Other'),
                   ],
                 ),
-                 if (!(isMale || isFemale || isOther))
+                if (!(isMale || isFemale || isOther))
                   const Text(
                     'Please Select a Gender',
                     style: TextStyle(color: Colors.red),
                   ),
-                  
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HeightWeightPage extends StatefulWidget {
+  @override
+  _HeightWeightPage createState() => _HeightWeightPage();
+}
+
+class _HeightWeightPage extends State<HeightWeightPage> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<SignUpBloc, SignUpState>(
+      listener: (context, state) {
+        if (state is SignUpSuccess) {
+          setState(() {
+            signUpRequired = false;
+          });
+          // Navigator.pop(context);
+        } else if (state is SignUpProcess) {
+          setState(() {
+            signUpRequired = true;
+          });
+        } else if (state is SignUpFailure) {
+          return;
+        }
+      },
+      child: SingleChildScrollView(
+        //เพิ่ม
+        child: Form(
+          key: _formKey,
+          child: Center(
+            child: Column(
+              children: [
                 const SizedBox(height: 15),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -509,8 +695,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: TextButton(
                             onPressed: () {
-                              if (_formKey.currentState!.validate() && (isMale || isFemale || isOther)) 
-                              {
+                              if (_formKey.currentState!.validate() &&
+                                  (isMale || isFemale || isOther)) {
                                 MyUser myUser = MyUser.empty;
                                 myUser = myUser.copyWith(
                                   //เพิ่มลง data ได้
@@ -524,6 +710,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 setState(() {
                                   context.read<SignUpBloc>().add(SignUpRequired(
                                       myUser, passwordController.text));
+
+                                  // Reset the controllers and state variables
+                                  passwordController.clear();
+                                  emailController.clear();
+                                  nameController.clear();
+                                  heightController.clear();
+                                  weightController.clear();
+                                  ageController.clear();
+                                  genderController.clear();
+
+                                  age = null;
+                                  weight = null;
+                                  height = null;
+
+                                  iconPassword = CupertinoIcons.eye_fill;
+                                  obscurePassword = true;
+                                  signUpRequired = false;
+
+                                  containsUpperCase = false;
+                                  containsLowerCase = false;
+                                  containsNumber = false;
+                                  containsSpecialChar = false;
+                                  contains8Length = false;
+
+                                  isMale = false;
+                                  isFemale = false;
+                                  isOther = false;
+
+                                  isUsernameTaken = false;
+                                  _username = null;
+
+                                  isGmailTaken = false;
+                                  _Gmail = null;
                                 });
                               }
                             },

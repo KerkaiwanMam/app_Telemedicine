@@ -86,42 +86,42 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       fit: BoxFit.contain,
                     ),
                   ),
-                  Center(
-                    child: Container(
-                      height: 460.0, // Set the desired height
-                      child: AppBar(
-                        title: RichText(
-                          text: const TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: 'Hello.\n',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'Welcome Back!',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        backgroundColor: Colors.transparent,
-                        elevation: 0,
-                      ),
-                    ),
-                  ),
+                  // Center(
+                  //   child: Container(
+                  //     height: 460.0, // Set the desired height
+                  //     child: AppBar(
+                  //       title: RichText(
+                  //         text: const TextSpan(
+                  //           children: <TextSpan>[
+                  //             TextSpan(
+                  //               text: 'Hello.\n',
+                  //               style: TextStyle(
+                  //                 fontSize: 30,
+                  //                 fontWeight: FontWeight.w600,
+                  //                 color: Colors.black,
+                  //               ),
+                  //             ),
+                  //             TextSpan(
+                  //               text: 'Welcome Back!',
+                  //               style: TextStyle(
+                  //                 fontSize: 30,
+                  //                 fontWeight: FontWeight.w600,
+                  //                 color: Colors.white,
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //       backgroundColor: Colors.transparent,
+                  //       elevation: 0,
+                  //     ),
+                  //   ),
+                  // ),
 
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.6,
+                      // height: MediaQuery.of(context).size.height / 1.6,
                       child: Column(
                         children: [
                           Padding(
