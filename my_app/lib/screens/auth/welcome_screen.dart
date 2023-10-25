@@ -157,19 +157,20 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               child: TabBarView(
                             controller: tabController,
                             children: [
-                              BlocProvider<SignUpBloc>(
-                                create: (context) => SignUpBloc(
-                                    userRepository: context
-                                        .read<AuthenticationBloc>()
-                                        .userRepository),
-                                child: const SignUpScreen(),
-                              ),
+                              
                               BlocProvider<SignInBloc>(
                                 create: (context) => SignInBloc(
                                     userRepository: context
                                         .read<AuthenticationBloc>()
                                         .userRepository),
                                 child: const SignInScreen(),
+                              ),
+                              BlocProvider<SignUpBloc>(
+                                create: (context) => SignUpBloc(
+                                    userRepository: context
+                                        .read<AuthenticationBloc>()
+                                        .userRepository),
+                                child: const SignUpScreen(),
                               ),
                             ],
                           ))

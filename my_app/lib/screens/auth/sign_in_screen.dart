@@ -2,8 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/screens/auth/components/my_text_field.dart';
+import 'package:my_app/screens/auth/components/my_text_field_sig.dart';
+import 'package:my_app/screens/auth/sign_up_screen.dart';
 
+import '../../blocs/authentication_bloc/authentication_bloc_bloc.dart';
 import '../../blocs/sign_in_bloc/sign_in_bloc_bloc.dart';
+import '../../blocs/sign_up_bloc/sign_up_bloc_bloc.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -46,25 +50,25 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(children: [
             const SizedBox(height: 25),
             // Add "E-mail" text here with left alignment
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: const Text(
-                'E-mail',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            // Container(
+            //   alignment: Alignment.centerLeft,
+            //   padding: const EdgeInsets.symmetric(horizontal: 30),
+            //   child: const Text(
+            //     'E-mail',
+            //     style: TextStyle(
+            //       fontSize: 18,
+            //       fontWeight: FontWeight.w600,
+            //     ),
+            //   ),
+            // ),
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
-                child: MyTextField(
+                child: TextFormFieldSignIn(
                     controller: emailController,
-                    hintText: 'Enter your email',
+                    labelTextDetail: 'Enter your email',
                     obscureText: false,
                     keyboardType: TextInputType.emailAddress,
-                    prefixIcon: const Icon(CupertinoIcons.mail_solid),
+                    // prefixIcon: const Icon(CupertinoIcons.mail_solid),
                     errorMsg: _errorMsg,
                     validator: (val) {
                       if (val!.isEmpty) {
@@ -76,25 +80,25 @@ class _SignInScreenState extends State<SignInScreen> {
                       return null;
                     })),
             const SizedBox(height: 15),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: const Text(
-                'Password',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            // Container(
+            //   alignment: Alignment.centerLeft,
+            //   padding: const EdgeInsets.symmetric(horizontal: 30),
+            //   child: const Text(
+            //     'Password',
+            //     style: TextStyle(
+            //       fontSize: 18,
+            //       fontWeight: FontWeight.w600,
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
-              child: MyTextField(
+              child: TextFormFieldSignIn(
                 controller: passwordController,
-                hintText: 'Enter your password',
+                labelTextDetail: 'Enter your password',
                 obscureText: obscurePassword,
                 keyboardType: TextInputType.visiblePassword,
-                prefixIcon: const Icon(CupertinoIcons.lock_fill),
+                // prefixIcon: const Icon(CupertinoIcons.lock_fill),
                 errorMsg: _errorMsg,
                 validator: (val) {
                   if (val!.isEmpty) {
@@ -134,7 +138,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         },
                         style: TextButton.styleFrom(
                             elevation: 3.0,
-                            backgroundColor: const Color.fromARGB(255, 186, 55, 71),
+                            backgroundColor:
+                                const Color.fromARGB(255, 186, 55, 71),
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(60))),
@@ -153,7 +158,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   )
                 : const CircularProgressIndicator(),
             const SizedBox(height: 105),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
@@ -164,16 +169,34 @@ class _SignInScreenState extends State<SignInScreen> {
                     color: Colors.black,
                   ),
                 ),
-                Text(
-                  " Sign Up",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 186, 55, 71),
+                InkWell(
+                  onTap: () {
+                    // เมื่อปุ่มถูกคลิก
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) {
+                        return BlocProvider<SignUpBloc>(
+                          create: (context) => SignUpBloc(
+                            userRepository: context
+                                .read<AuthenticationBloc>()
+                                .userRepository,
+                          ),
+                          child: SignUpScreen(),
+                        );
+                      }),
+                    );
+                  },
+                 
+                  child: Text(
+                    " Sign Up",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 186, 55, 71),
+                    ),
                   ),
-                ),
+                )
               ],
-            ),
+            )
           ])),
     );
   }
