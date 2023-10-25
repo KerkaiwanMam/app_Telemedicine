@@ -124,52 +124,52 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       // height: MediaQuery.of(context).size.height / 1.6,
                       child: Column(
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 50.0),
-                            child: TabBar(
-                              controller: tabController,
-                              unselectedLabelColor: Colors.black,
-                              labelColor: Colors.black,
-                              tabs: const [
-                                Padding(
-                                  padding: EdgeInsets.all(13.0),
-                                  child: Text(  
-                                    'Sign In',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(13.0),
-                                  child: Text(
-                                    'Sign Up',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Padding(
+                          //   padding:
+                          //       const EdgeInsets.symmetric(horizontal: 50.0),
+                          //   child: TabBar(
+                          //     controller: tabController,
+                          //     unselectedLabelColor: Colors.black,
+                          //     labelColor: Colors.black,
+                          //     tabs: const [
+                          //       Padding(
+                          //         padding: EdgeInsets.all(13.0),
+                          //         child: Text(  
+                          //           'Sign In',
+                          //           style: TextStyle(
+                          //             fontSize: 18,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Padding(
+                          //         padding: EdgeInsets.all(13.0),
+                          //         child: Text(
+                          //           'Sign Up',
+                          //           style: TextStyle(
+                          //             fontSize: 18,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           Expanded(
                               child: TabBarView(
                             controller: tabController,
                             children: [
-                              BlocProvider<SignInBloc>(
-                                create: (context) => SignInBloc(
-                                    userRepository: context
-                                        .read<AuthenticationBloc>()
-                                        .userRepository),
-                                child: const SignInScreen(),
-                              ),
                               BlocProvider<SignUpBloc>(
                                 create: (context) => SignUpBloc(
                                     userRepository: context
                                         .read<AuthenticationBloc>()
                                         .userRepository),
                                 child: const SignUpScreen(),
+                              ),
+                              BlocProvider<SignInBloc>(
+                                create: (context) => SignInBloc(
+                                    userRepository: context
+                                        .read<AuthenticationBloc>()
+                                        .userRepository),
+                                child: const SignInScreen(),
                               ),
                             ],
                           ))
