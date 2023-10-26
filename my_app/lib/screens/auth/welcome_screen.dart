@@ -134,6 +134,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                         .userRepository),
                                 child: const SignUpScreen(),
                               ),
+                              
                             ],
                           ))
                         ],

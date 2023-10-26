@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/blocs/sign_up_bloc/sign_up_bloc_bloc.dart';
+import 'package:my_app/screens/auth/SecondScreen.dart';
 import 'package:my_app/screens/auth/components/my_text_field.dart';
 import 'package:my_app/screens/auth/components/my_text_field_sig.dart';
+import 'package:my_app/screens/auth/signInPage_calibrationFindFriends.dart';
 import 'package:my_app/screens/auth/sign_in_screen.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -67,7 +69,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Stack(
         children: [
           PageView(
@@ -869,7 +870,7 @@ class _UsernameAgeGenderPage extends State<UsernameAgeGenderPage> {
                     ),
 
                     const SizedBox(height: 20),
-                    
+
                     //---------------------------------------------------------
                     Row(
                       children: [
@@ -974,7 +975,7 @@ class _UsernameAgeGenderPage extends State<UsernameAgeGenderPage> {
                           }),
                     ),
                     const SizedBox(height: 20),
-                  
+
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.75,
                       child: TextFormFieldSignIn(
@@ -1186,7 +1187,7 @@ class _HeightWeightPage extends State<HeightWeightPage> {
           child: SingleChildScrollView(
             //เพิ่ม
             child: Form(
-              // key: _formKey,
+              key: _formKey,
               child: Container(
                 child: Center(
                   child: Column(
@@ -1325,20 +1326,94 @@ class _HeightWeightPage extends State<HeightWeightPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_currentPage < 3) {
-                            _pageController.nextPage(
-                              duration: Duration(milliseconds: 400),
-                              curve: Curves.easeInOut,
-                            );
-                          }
-                        },
-                        child: const Text('NEXT'),
-                        style: customButtonStyle,
-                      ),
+                      //ถ้าเพิ่มวิดเจ็ตระวังมัน overflow
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02),
+                      !signUpRequired
+                          ? SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: TextButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate() &&
+                                      (isMale || isFemale || isOther)) {
+                                    if (_currentPage < 3) {
+                                      // ตรวจสอบเงื่อนไขก่อนเพื่อให้กดไปหน้าถัดไปได้เฉพาะเมื่อเงื่อนไขที่คุณต้องการถูกตรวจสอบ
+                                      _pageController.nextPage(
+                                        duration: Duration(milliseconds: 400),
+                                        curve: Curves.easeInOut,
+                                      );
+                                    }
+                                    MyUser myUser = MyUser.empty;
+                                    myUser = myUser.copyWith(
+                                      // Add your data here
+                                      email: emailController.text,
+                                      name: nameController.text,
+                                      height: height,
+                                      weight: weight,
+                                      age: age,
+                                      gender: genderController.text,
+                                    );
+                                    setState(() {
+                                      context.read<SignUpBloc>().add(
+                                          SignUpRequired(
+                                              myUser, passwordController.text));
+
+                                      // Reset the controllers and state variables
+                                      passwordController.clear();
+                                      emailController.clear();
+                                      nameController.clear();
+                                      heightController.clear();
+                                      weightController.clear();
+                                      ageController.clear();
+                                      genderController.clear();
+
+                                      age = null;
+                                      weight = null;
+                                      height = null;
+
+                                      iconPassword = CupertinoIcons.eye_fill;
+                                      obscurePassword = true;
+                                      signUpRequired = false;
+
+                                      containsUpperCase = false;
+                                      containsLowerCase = false;
+                                      containsNumber = false;
+                                      containsSpecialChar = false;
+                                      contains8Length = false;
+
+                                      isMale = false;
+                                      isFemale = false;
+                                      isOther = false;
+
+                                      isUsernameTaken = false;
+                                      _username = null;
+
+                                      isGmailTaken = false;
+                                      _Gmail = null;
+                                    });
+                                  }
+                                },
+                                style: customButtonStyle,
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 25, vertical: 5),
+                                  child: Text(
+                                    'Sign Up',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                              // child: const Text('SING IN'),
+                              // style: customButtonStyle,
+                            )
+                          : const CircularProgressIndicator(),
+
                       SizedBox(
                         height: 20,
                       ),
@@ -1352,12 +1427,24 @@ class _HeightWeightPage extends State<HeightWeightPage> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            "Calibrate Heartware".toUpperCase(),
-                            style: TextStyle(
+                          InkWell(
+                            onTap: () {
+                              if (_currentPage < 3) {
+                                // ตรวจสอบเงื่อนไขก่อนเพื่อให้กดไปหน้าถัดไปได้เฉพาะเมื่อเงื่อนไขที่คุณต้องการถูกตรวจสอบ
+                                _pageController.nextPage(
+                                  duration: Duration(milliseconds: 400),
+                                  curve: Curves.easeInOut,
+                                );
+                              }
+                            },
+                            child: Text(
+                              "Calibrate Heartware".toUpperCase(),
+                              style: TextStyle(
                                 fontSize: 16,
                                 fontStyle: FontStyle.italic,
-                                color: Color(0xFFCF9A40)),
+                                color: Color(0xFFCF9A40),
+                              ),
+                            ),
                           ),
                           SizedBox(
                             height: 20,
@@ -1427,51 +1514,51 @@ class _StartPage extends State<StartPage> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 60,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          titleSpacing: -30,
-          leadingWidth: 120,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 24),
-            onPressed: () {
-              if (_currentPage > 0) {
-                _pageController.previousPage(
-                  duration: Duration(milliseconds: 400),
-                  curve: Curves.easeInOut,
-                );
-              }
-            },
-          ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(5),
-            child: Divider(
-              color: Color.fromARGB(255, 255, 255, 255),
-              thickness: 1,
-              height: 5,
-              indent: 40,
-              endIndent: 40,
-            ),
-          ),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image:
-                    NetworkImage('assets/images/bgImage_calibrationBefore.png'),
-                fit: BoxFit.fitWidth, // ปรับตามความเหมาะสม
-                alignment: Alignment.topCenter,
-              ),
-            ),
-          ),
-          title: Text(
-            "Sign In",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 26,
-            ),
-          ),
-        ),
+        // appBar: AppBar(
+        //   toolbarHeight: 60,
+        //   backgroundColor: Colors.transparent,
+        //   elevation: 0,
+        //   titleSpacing: -30,
+        //   leadingWidth: 120,
+        //   leading: IconButton(
+        //     icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 24),
+        //     onPressed: () {
+        //       if (_currentPage > 0) {
+        //         _pageController.previousPage(
+        //           duration: Duration(milliseconds: 400),
+        //           curve: Curves.easeInOut,
+        //         );
+        //       }
+        //     },
+        //   ),
+        //   bottom: PreferredSize(
+        //     preferredSize: Size.fromHeight(5),
+        //     child: Divider(
+        //       color: Color.fromARGB(255, 255, 255, 255),
+        //       thickness: 1,
+        //       height: 5,
+        //       indent: 40,
+        //       endIndent: 40,
+        //     ),
+        //   ),
+        //   flexibleSpace: Container(
+        //     decoration: BoxDecoration(
+        //       image: DecorationImage(
+        //         image:
+        //             NetworkImage('assets/images/bgImage_calibrationBefore.png'),
+        //         fit: BoxFit.fitWidth, // ปรับตามความเหมาะสม
+        //         alignment: Alignment.topCenter,
+        //       ),
+        //     ),
+        //   ),
+        //   // title: Text(
+        //   //   "Sign In",
+        //   //   style: TextStyle(
+        //   //     color: Colors.white,
+        //   //     fontSize: 26,
+        //   //   ),
+        //   // ),
+        // ),
         body: Container(
           height: double.infinity,
           width: double.infinity,
@@ -1485,13 +1572,13 @@ class _StartPage extends State<StartPage> {
           child: SingleChildScrollView(
             //เพิ่ม
             child: Form(
-              key: _formKey,
+              // key: _formKey,
               child: Container(
                 child: Center(
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 40,
+                        height: 80,
                       ),
                       Column(
                         children: [
@@ -1513,7 +1600,7 @@ class _StartPage extends State<StartPage> {
                             ),
                           ),
                           SizedBox(
-                            height: 30,
+                            height: 40,
                           ),
                           Text(
                             "This will only take a Minute".toUpperCase(),
@@ -1524,7 +1611,7 @@ class _StartPage extends State<StartPage> {
                             ),
                           ),
                           SizedBox(
-                            height: 40,
+                            height: 70,
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
@@ -1541,67 +1628,18 @@ class _StartPage extends State<StartPage> {
                                     ),
                                     iconSize: 150,
                                     onPressed: () {
-                                      if (_formKey.currentState!.validate() &&
-                                          (isMale || isFemale || isOther)) {
-                                        MyUser myUser = MyUser.empty;
-                                        myUser = myUser.copyWith(
-                                          // Add your data here
-                                          email: emailController.text,
-                                          name: nameController.text,
-                                          height: height,
-                                          weight: weight,
-                                          age: age,
-                                          gender: genderController.text,
-                                        );
-                                        setState(() {
-                                          context.read<SignUpBloc>().add(
-                                              SignUpRequired(myUser,
-                                                  passwordController.text));
-
-                                          // Reset the controllers and state variables
-                                          passwordController.clear();
-                                          emailController.clear();
-                                          nameController.clear();
-                                          heightController.clear();
-                                          weightController.clear();
-                                          ageController.clear();
-                                          genderController.clear();
-
-                                          age = null;
-                                          weight = null;
-                                          height = null;
-
-                                          iconPassword =
-                                              CupertinoIcons.eye_fill;
-                                          obscurePassword = true;
-                                          signUpRequired = false;
-
-                                          containsUpperCase = false;
-                                          containsLowerCase = false;
-                                          containsNumber = false;
-                                          containsSpecialChar = false;
-                                          contains8Length = false;
-
-                                          isMale = false;
-                                          isFemale = false;
-                                          isOther = false;
-
-                                          isUsernameTaken = false;
-                                          _username = null;
-
-                                          isGmailTaken = false;
-                                          _Gmail = null;
-                                        });
-                                      }
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SecondScreen()),
+                                      );
                                     },
                                   ),
                                 )
                               : CircularProgressIndicator(),
                           SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            height: 40,
+                            height: 50,
                           ),
                           Image(
                             image: NetworkImage(
@@ -1610,35 +1648,35 @@ class _StartPage extends State<StartPage> {
                           SizedBox(
                             height: 40,
                           ),
-                          // RichText(
-                          //   text: TextSpan(
-                          //     style: TextStyle(
-                          //       fontSize: 14,
-                          //       color: Color(0xFFF7F2E3),
-                          //       fontFamily: 'Montserrat',
-                          //     ),
-                          //     children: [
-                          //       TextSpan(
-                          //         text: "Don't have a ",
-                          //       ),
-                          //       TextSpan(
-                          //         text: 'HEARTWARE?',
-                          //         style: TextStyle(
-                          //           decoration: TextDecoration.underline,
-                          //         ),
-                          //         recognizer: TapGestureRecognizer()
-                          //           ..onTap = () {
-                          //             Navigator.of(context).push(
-                          //               MaterialPageRoute(
-                          //                 builder: (context) =>
-                          //                     SignInPage_calibrationFindFriends(),
-                          //               ),
-                          //             );
-                          //           },
-                          //       ),
-                          //     ],
-                          //   ),
-                          // )
+                          RichText(
+                            text: TextSpan(
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFFF7F2E3),
+                                fontFamily: 'Montserrat',
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: "Don't have a ",
+                                ),
+                                TextSpan(
+                                  text: 'HEARTWARE?',
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              SignInPage_calibrationFindFriends(),
+                                        ),
+                                      );
+                                    },
+                                ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                       SizedBox(

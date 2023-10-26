@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "393639006879",
+    "firebase_url": "https://app-telemedicine-run-default-rtdb.firebaseio.com",
     "project_id": "app-telemedicine-run",
     "storage_bucket": "app-telemedicine-run.appspot.com"
   },

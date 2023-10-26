@@ -8,15 +8,56 @@ import 'package:my_app/screens/auth/sign_up_screen.dart';
 import '../../blocs/authentication_bloc/authentication_bloc_bloc.dart';
 import '../../blocs/sign_in_bloc/sign_in_bloc_bloc.dart';
 import '../../blocs/sign_up_bloc/sign_up_bloc_bloc.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:my_app/screens/auth/SecondScreen.dart';
+
+
+final PageController _pageController = PageController(initialPage: 0);
+int _currentPage = 0;
+
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  _SignInScreenState createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+ 
+
+  @override
+   Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          PageView(
+            controller: _pageController,
+            onPageChanged: (page) {
+              setState(() {
+                _currentPage = page;
+              });
+            },
+            children: <Widget>[
+              FirstScreen(),
+              LoginScreen(),
+              
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class LoginScreen extends StatefulWidget {
+ 
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
 
@@ -28,6 +69,19 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    PageView(
+      controller: _pageController,
+      onPageChanged: (page) {
+        setState(() {
+          _currentPage = page;
+        });
+      },
+      children: <Widget>[
+        FirstScreen(),
+        LoginScreen(),
+        
+      ],
+    );
     return BlocListener<SignInBloc, SignInState>(
       listener: (context, state) {
         if (state is SignInSuccess) {
@@ -43,6 +97,7 @@ class _SignInScreenState extends State<SignInScreen> {
             signInRequired = false;
             _errorMsg = 'Invalid Email or Password';
           });
+          
         }
       },
       child: Container(
@@ -237,6 +292,141 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
               ),
             ])),
+      ),
+    );
+  }
+}
+
+
+class FirstScreen extends StatefulWidget {
+  FirstScreen({Key? key}) : super(key: key);
+
+  @override
+  _FirstScreenState createState() => _FirstScreenState();
+}
+
+class _FirstScreenState extends State<FirstScreen> {
+  final ButtonStyle customButtonStyle = ElevatedButton.styleFrom(
+    backgroundColor: Color(0xFF114817),
+    minimumSize: Size(200, 50),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(5),
+        bottomLeft: Radius.circular(35),
+        topRight: Radius.circular(35),
+        bottomRight: Radius.circular(5),
+      ),
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    PageView(
+      controller: _pageController,
+      onPageChanged: (page) {
+        setState(() {
+          _currentPage = page;
+        });
+      },
+      children: <Widget>[
+        FirstScreen(),
+        LoginScreen(),
+        
+      ],
+    );
+    return MaterialApp(
+      home: Scaffold(
+        body: Stack(
+          children: <Widget>[
+            // Background Image
+            Image.asset(
+              'assets/images/background-image.jpg',
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+
+            Image.asset(
+              'assets/images/background-image-top.png',
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ).animate(delay: 5000.ms).fadeOut(duration: 600.ms),
+
+            // Content on top of the background and logo with Margin
+            Positioned(
+              top: MediaQuery.of(context).size.height - 620,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                    child: Text(
+                  'AN APP THAT REWARDS YOU AFTER AN EXERCISE,\nWHICH IS WHAT YOU DESERVE.',
+                  style: TextStyle(
+                    color: Color(0xFF114817),
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Montserrat',
+                  ),
+                  textAlign: TextAlign.center,
+                ).animate(delay: 5000.ms).fadeIn(duration: 600.ms)),
+              ),
+            ),
+
+            // Centered Logo with Margin
+            Center(
+              child: Container(
+                width: 300,
+                height: 300,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/logo.gif'),
+                  ),
+                ),
+                margin: EdgeInsets.all(0),
+              ),
+            ),
+
+            // Content on top of the background and logo with Margin
+            Positioned(
+              bottom: 130,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 150,
+                  child: ElevatedButton(
+                    onPressed: () {
+                        if (_currentPage < 1) {
+                          _pageController.nextPage(
+                            duration: Duration(milliseconds: 400),
+                            curve: Curves.easeInOut,
+                            
+                          );
+                          setState(() {
+                          _currentPage = 0;
+                        });
+                          
+                        } setState(() {
+                          _currentPage = 0;
+                        });
+                      },
+                    style: customButtonStyle,
+                    child: Text(
+                      'GET STARTED',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 247, 242, 227),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Montserrat',
+                      ),
+                    ),
+                  ).animate(delay: 5500.ms).fadeIn(duration: 600.ms),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '393639006879',
     projectId: 'app-telemedicine-run',
     authDomain: 'app-telemedicine-run.firebaseapp.com',
+    databaseURL: 'https://app-telemedicine-run-default-rtdb.firebaseio.com',
     storageBucket: 'app-telemedicine-run.appspot.com',
     measurementId: 'G-NT7XFV5E2S',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:393639006879:android:dfc7881fbc6629f62e88aa',
     messagingSenderId: '393639006879',
     projectId: 'app-telemedicine-run',
+    databaseURL: 'https://app-telemedicine-run-default-rtdb.firebaseio.com',
     storageBucket: 'app-telemedicine-run.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:393639006879:ios:49a4efcb28a859a22e88aa',
     messagingSenderId: '393639006879',
     projectId: 'app-telemedicine-run',
+    databaseURL: 'https://app-telemedicine-run-default-rtdb.firebaseio.com',
     storageBucket: 'app-telemedicine-run.appspot.com',
     iosBundleId: 'com.example.myApp',
   );
@@ -75,6 +78,7 @@ class DefaultFirebaseOptions {
     appId: '1:393639006879:ios:7aa5f8f2381f5a3a2e88aa',
     messagingSenderId: '393639006879',
     projectId: 'app-telemedicine-run',
+    databaseURL: 'https://app-telemedicine-run-default-rtdb.firebaseio.com',
     storageBucket: 'app-telemedicine-run.appspot.com',
     iosBundleId: 'com.example.myApp.RunnerTests',
   );
