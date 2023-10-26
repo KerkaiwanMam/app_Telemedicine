@@ -45,159 +45,199 @@ class _SignInScreenState extends State<SignInScreen> {
           });
         }
       },
-      child: Form(
-          key: _formKey,
-          child: Column(children: [
-            const SizedBox(height: 25),
-            // Add "E-mail" text here with left alignment
-            // Container(
-            //   alignment: Alignment.centerLeft,
-            //   padding: const EdgeInsets.symmetric(horizontal: 30),
-            //   child: const Text(
-            //     'E-mail',
-            //     style: TextStyle(
-            //       fontSize: 18,
-            //       fontWeight: FontWeight.w600,
-            //     ),
-            //   ),
-            // ),
-            SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: TextFormFieldSignIn(
-                    controller: emailController,
-                    labelTextDetail: 'Enter your email',
-                    obscureText: false,
-                    keyboardType: TextInputType.emailAddress,
-                    // prefixIcon: const Icon(CupertinoIcons.mail_solid),
-                    errorMsg: _errorMsg,
-                    validator: (val) {
-                      if (val!.isEmpty) {
-                        return 'Please Fill in This Field';
-                      } else if (!RegExp(r'^[\w-\.]+@([\w-]+.)+[\w-]{2,4}$')
-                          .hasMatch(val)) {
-                        return 'Please Enter a Valid Email';
-                      }
-                      return null;
-                    })),
-            const SizedBox(height: 15),
-            // Container(
-            //   alignment: Alignment.centerLeft,
-            //   padding: const EdgeInsets.symmetric(horizontal: 30),
-            //   child: const Text(
-            //     'Password',
-            //     style: TextStyle(
-            //       fontSize: 18,
-            //       fontWeight: FontWeight.w600,
-            //     ),
-            //   ),
-            // ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: TextFormFieldSignIn(
-                controller: passwordController,
-                labelTextDetail: 'Enter your password',
-                obscureText: obscurePassword,
-                keyboardType: TextInputType.visiblePassword,
-                // prefixIcon: const Icon(CupertinoIcons.lock_fill),
-                errorMsg: _errorMsg,
-                validator: (val) {
-                  if (val!.isEmpty) {
-                    return 'Please Fill in This Field';
-                  } else if (!RegExp(
-                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$')
-                      .hasMatch(val)) {
-                    return 'Please Enter a Valid Password';
-                  }
-                  return null;
-                },
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      obscurePassword = !obscurePassword;
-                      if (obscurePassword) {
-                        iconPassword = CupertinoIcons.eye_fill;
-                      } else {
-                        iconPassword = CupertinoIcons.eye_slash_fill;
-                      }
-                    });
-                  },
-                  icon: Icon(iconPassword),
+      child: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.fill,
+            image: NetworkImage('assets/images/background-image_login2.jpg'),
+          ),
+        ),
+        child: Form(
+            key: _formKey,
+            child: Column(children: [
+              const SizedBox(height: 80),
+              Container(
+                height: 200,
+                width: 200,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                        'assets/images/logo.png'), // แทน 'your_image.png' ด้วยเส้นทางรูปภาพของคุณ
+                    fit: BoxFit.cover, // ปรับตามความเหมาะสม
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            !signInRequired
-                ? SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: TextButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            context.read<SignInBloc>().add(SignInRequired(
-                                emailController.text, passwordController.text));
-                          }
-                        },
-                        style: TextButton.styleFrom(
-                            elevation: 3.0,
-                            backgroundColor:
-                                const Color.fromARGB(255, 186, 55, 71),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(60))),
-                        child: const Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-                          child: Text(
-                            'Sign In',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        )),
-                  )
-                : const CircularProgressIndicator(),
-            const SizedBox(height: 105),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Don't have an account? Please",
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: const Text(
+                  'WELCOME!',
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    fontSize: 26,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    // เมื่อปุ่มถูกคลิก
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) {
-                        return BlocProvider<SignUpBloc>(
-                          create: (context) => SignUpBloc(
-                            userRepository: context
-                                .read<AuthenticationBloc>()
-                                .userRepository,
-                          ),
-                          child: SignUpScreen(),
-                        );
-                      }),
-                    );
+              ),
+              const SizedBox(height: 25),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: TextFormFieldSignIn(
+                      controller: emailController,
+                      labelTextDetail: 'Username',
+                      obscureText: false,
+                      keyboardType: TextInputType.emailAddress,
+                      // prefixIcon: const Icon(CupertinoIcons.mail_solid),
+                      errorMsg: _errorMsg,
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return 'Please Fill in This Field';
+                        } else if (!RegExp(r'^[\w-\.]+@([\w-]+.)+[\w-]{2,4}$')
+                            .hasMatch(val)) {
+                          return 'Please Enter a Valid Email';
+                        }
+                        return null;
+                      })),
+              const SizedBox(height: 15),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: TextFormFieldSignIn(
+                  controller: passwordController,
+                  labelTextDetail: 'Password',
+                  obscureText: obscurePassword,
+                  keyboardType: TextInputType.visiblePassword,
+                  // prefixIcon: const Icon(CupertinoIcons.lock_fill),
+                  errorMsg: _errorMsg,
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'Please Fill in This Field';
+                    } else if (!RegExp(
+                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$')
+                        .hasMatch(val)) {
+                      return 'Please Enter a Valid Password';
+                    }
+                    return null;
                   },
-                 
-                  child: Text(
-                    " Sign Up",
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        obscurePassword = !obscurePassword;
+                        if (obscurePassword) {
+                          iconPassword = CupertinoIcons.eye_fill;
+                        } else {
+                          iconPassword = CupertinoIcons.eye_slash_fill;
+                        }
+                      });
+                    },
+                    icon: Icon(iconPassword),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 50),
+              !signInRequired
+                  ? SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: TextButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              context.read<SignInBloc>().add(SignInRequired(
+                                  emailController.text,
+                                  passwordController.text));
+                            }
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: Color(0xFF114817),
+                            minimumSize: Size(200, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5),
+                                bottomLeft: Radius.circular(35),
+                                topRight: Radius.circular(35),
+                                bottomRight: Radius.circular(5),
+                              ),
+                            ),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 25, vertical: 5),
+                            child: Text(
+                              'LOG IN',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          )),
+                    )
+                  : const CircularProgressIndicator(),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Forgot Password",
                     style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 186, 55, 71),
+                      fontSize: 14,
+                      color: Color(0xFF114817),
                     ),
                   ),
-                )
-              ],
-            )
-          ])),
+                ],
+              ),
+              const SizedBox(height: 30),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          return BlocProvider<SignUpBloc>(
+                            create: (context) => SignUpBloc(
+                              userRepository: context
+                                  .read<AuthenticationBloc>()
+                                  .userRepository,
+                            ),
+                            child: SignUpScreen(),
+                          );
+                        }),
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: Color(0xFF114817),
+                      minimumSize: Size(200, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5),
+                          bottomLeft: Radius.circular(35),
+                          topRight: Radius.circular(35),
+                          bottomRight: Radius.circular(5),
+                        ),
+                      ),
+                    ),
+                    child: const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                      child: Text(
+                        'SIGN UP',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    )),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Don't Have an Account?",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFF114817),
+                ),
+              ),
+            ])),
+      ),
     );
   }
 }

@@ -29,63 +29,25 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: Color.fromARGB(0, 255, 255, 255),
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
-              Align(
-                //วงกลมลอยเอามาทับพื้นหลัง
-                alignment: const AlignmentDirectional(20, -1.5),
-                child: Container(
-                  height: MediaQuery.of(context).size.width,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color.fromARGB(255, 215, 80, 37)),
-                ),
-              ),
-              Align(
-                //วงกลมลอยเอามาทับพื้นหลัง
-                alignment: const AlignmentDirectional(-2.7, -1.2),
-                child: Container(
-                  height: MediaQuery.of(context).size.width / 1.3,
-                  width: MediaQuery.of(context).size.width / 1.3,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color.fromARGB(255, 215, 80, 37)),
-                ),
-              ),
-              Align(
-                //วงกลมลอยเอามาทับพื้นหลัง
-                alignment: const AlignmentDirectional(2.7, -1.2),
-                child: Container(
-                  height: MediaQuery.of(context).size.width / 1.3,
-                  width: MediaQuery.of(context).size.width / 1.3,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color.fromARGB(255, 215, 80, 37)),
-                ),
-              ),
-              //ตัวฟิวเตอร์ที่เป็นแผ่นมาวางทับให้เบลอได้
-              BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 65.0, sigmaY: 65.0),
-                child: Container(),
-              ),
-
+              
               Stack(
                 children: [
                   // Background image with opacity
-                  Opacity(
-                    opacity: 0.1, // Adjust the opacity as needed
-                    child: Image.asset(
-                      'assets/images/LoginBack.png', // Replace with your image path
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  // Opacity(
+                  //   opacity: 0.1, // Adjust the opacity as needed
+                  //   child: Image.network(
+                  //     'assets/images/background-image_login2.jpg', // Replace with your image path
+                  //     width: double.infinity,
+                  //     height: double.infinity,
+                  //     fit: BoxFit.contain,
+                  //   ),
+                  // ),
                   // Center(
                   //   child: Container(
                   //     height: 460.0, // Set the desired height

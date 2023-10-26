@@ -67,49 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   toolbarHeight: 60,
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   titleSpacing: -30,
-      //   leadingWidth: 120,
-      //   leading: IconButton(
-      //     icon: Icon(Icons.arrow_back_ios, color: Colors.black, size: 24),
-      //     onPressed: () {
-      //       if (_currentPage > 0) {
-      //         _pageController.previousPage(
-      //           duration: Duration(milliseconds: 400),
-      //           curve: Curves.easeInOut,
-      //         );
-      //       }
-      //     },
-      //   ),
-      //   bottom: PreferredSize(
-      //     preferredSize: Size.fromHeight(5),
-      //     child: Divider(
-      //       color: Color.fromARGB(255, 0, 0, 0),
-      //       thickness: 1,
-      //       height: 5,
-      //       indent: 40,
-      //       endIndent: 40,
-      //     ),
-      //   ),
-      //   flexibleSpace: Container(
-      //     decoration: BoxDecoration(
-      //       image: DecorationImage(
-      //         image: AssetImage('assets/images/background-image_signIn_1.png'),
-      //         fit: BoxFit.cover, // ปรับตามความเหมาะสม
-      //       ),
-      //     ),
-      //   ),
-      //   title: Text(
-      //     "Sign In",
-      //     style: TextStyle(
-      //       color: Colors.black,
-      //       fontSize: 26,
-      //     ),
-      //   ),
-      // ),
+      
       body: Stack(
         children: [
           PageView(
@@ -911,53 +869,7 @@ class _UsernameAgeGenderPage extends State<UsernameAgeGenderPage> {
                     ),
 
                     const SizedBox(height: 20),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     Checkbox(
-                    //       value: isMale,
-                    //       onChanged: (value) {
-                    //         setState(() {
-                    //           isMale = value ?? false;
-                    //           isFemale = false;
-                    //           isOther = false;
-                    //           genderController.text = isMale ? 'Male' : '';
-                    //         });
-                    //       },
-                    //     ),
-                    //     const Text('Male'),
-                    //     Checkbox(
-                    //       value: isFemale,
-                    //       onChanged: (value) {
-                    //         setState(() {
-                    //           isMale = false;
-                    //           isFemale = value ?? false;
-                    //           isOther = false;
-                    //           genderController.text = isFemale ? 'Female' : '';
-                    //         });
-                    //       },
-                    //     ),
-                    //     const Text('Female'),
-                    //     Checkbox(
-                    //       value: isOther,
-                    //       onChanged: (value) {
-                    //         setState(() {
-                    //           isMale = false;
-                    //           isFemale = false;
-                    //           isOther = value ?? false;
-                    //           genderController.text = isOther ? 'Other' : '';
-                    //         });
-                    //       },
-                    //     ),
-                    //     const Text('Other'),
-                    //   ],
-                    // ),
-                    // if (!(isMale || isFemale || isOther))
-                    //   const Text(
-                    //     'Please Select a Gender',
-                    //     style: TextStyle(color: Colors.red),
-                    //   ),
-
+                    
                     //---------------------------------------------------------
                     Row(
                       children: [
@@ -1062,17 +974,7 @@ class _UsernameAgeGenderPage extends State<UsernameAgeGenderPage> {
                           }),
                     ),
                     const SizedBox(height: 20),
-                    // Container(
-                    //   alignment: Alignment.centerLeft,
-                    //   padding: const EdgeInsets.symmetric(horizontal: 30),
-                    //   child: const Text(
-                    //     'Weight',
-                    //     style: TextStyle(
-                    //       fontSize: 18,
-                    //       fontWeight: FontWeight.w600,
-                    //     ),
-                    //   ),
-                    // ),
+                  
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.75,
                       child: TextFormFieldSignIn(
