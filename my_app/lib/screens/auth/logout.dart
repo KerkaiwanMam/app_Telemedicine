@@ -6,8 +6,8 @@ import 'package:my_app/screens/auth/SecondScreen.dart';
 import 'package:my_app/screens/auth/sign_in_screen.dart';
 import 'signInPage_calibrationFindFriends.dart';
 
-class SignInPage_calibrationBefore extends StatelessWidget {
-  const SignInPage_calibrationBefore({Key? key}) : super(key: key);
+class logoutpage extends StatelessWidget {
+  const logoutpage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

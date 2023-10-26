@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/screens/auth/CartPage.dart';
+import 'package:my_app/screens/auth/SecondScreen.dart';
 import 'package:my_app/screens/auth/WalletPage.dart';
 import 'package:my_app/screens/auth/components/cardSocials.dart';
 import 'package:my_app/screens/auth/components/navBarBottom.dart';
+import 'package:my_app/screens/auth/settingPage.dart';
+import 'package:my_app/screens/auth/signInPage_calibrationFindFriends.dart';
+import 'package:my_app/screens/auth/sign_in_screen.dart';
+import 'package:my_app/screens/auth/sign_up_screen.dart';
 
 import 'signInPage_calibrationBefore.dart';
 
@@ -12,7 +17,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Expanded(
           child: Container(
@@ -39,7 +44,16 @@ class ProfilePage extends StatelessWidget {
                           icon: Icon(Icons.arrow_back_ios,
                               color: Color(0xFFF7F2E3), size: 24),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  // นี่คือหน้าปลายทางที่คุณต้องการไป
+                                  // เช่น หน้า ProfilePage()
+                                  return SecondScreen();
+                                },
+                              ),
+                            );
                           },
                         ),
                       ),
@@ -65,14 +79,24 @@ class ProfilePage extends StatelessWidget {
                         ),
                         Row(
                           children: [
+                            
                             InkWell(
                               onTap: () {
-                                // ดำเนินการเมื่อคลิกปุ่มค้นหา
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      // นี่คือหน้าปลายทางที่คุณต้องการไป
+                                      // เช่น หน้า ProfilePage()
+                                      return WalletPage();
+                                    },
+                                  ),
+                                );
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(right: 10.0),
                                 child: Icon(
-                                  Icons.search,
+                                  Icons.wallet_outlined,
                                   color: Color(0xFFF7F2E3),
                                   size: 30,
                                 ),
@@ -80,21 +104,18 @@ class ProfilePage extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                 Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    // นี่คือหน้าปลายทางที่คุณต้องการไป
-                    // เช่น หน้า ProfilePage()
-                    return WalletPage();
-                  },
-                ),
-              );
+                                // ดำเนินการเมื่อคลิกปุ่มค้นหา
+                                Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              SettingPage(),
+                                        ),
+                                      );
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(right: 10.0),
                                 child: Icon(
-                                  Icons.wallet_outlined,
+                                  Icons.settings,
                                   color: Color(0xFFF7F2E3),
                                   size: 30,
                                 ),

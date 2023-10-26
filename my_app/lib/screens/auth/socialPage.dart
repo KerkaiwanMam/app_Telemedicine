@@ -54,12 +54,8 @@ class SocialPage extends StatelessWidget {
               icon: Icon(Icons.arrow_back_ios,
                   color: Color(0xff526c3f), size: 24),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SignInPage_calibrationBefore()),
-                );
-              },
+                            Navigator.of(context).pop();
+                          },
             ),
           ],
         ),

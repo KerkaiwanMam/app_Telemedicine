@@ -49,13 +49,9 @@ class AchievementsPage extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.arrow_back_ios,
                   color: Color(0xffF7F2E3), size: 24),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SignInPage_calibrationBefore()),
-                );
-              },
+             onPressed: () {
+                            Navigator.of(context).pop();
+                          },
             ),
           ],
         ),

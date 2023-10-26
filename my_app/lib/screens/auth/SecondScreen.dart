@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/screens/auth/ThirdScreen.dart';
+import 'package:my_app/screens/auth/signInPage_calibrationBefore.dart';
 // import 'package:test/FirstScreen.dart';
 
 class SecondScreen extends StatefulWidget {
@@ -50,6 +51,16 @@ class _SecondScreenState extends State<SecondScreen> {
                   //   ),
                   // );
                    Navigator.of(context).pop(); 
+              //      Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) {
+              //       // นี่คือหน้าปลายทางที่คุณต้องการไป
+              //       // เช่น หน้า ProfilePage()
+              //       return SignInPage_calibrationBefore();
+              //     },
+              //   ),
+              // );
                 },
                 child: Center(
                   child: Container(
